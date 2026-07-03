@@ -1,7 +1,7 @@
 # Shop Management System
 The objective of the project is to create a shop management system that features a main screen for logging in, from which users can navigate to the registration page. Upon successful login, users are redirected to the laptops page, where they can create, edit, view, and delete laptops, as well as navigate to the orders page. On the orders page, users can create an order by selecting a laptop from the first page, change the order status, or delete it. The final page is used to update or delete profile information.
 
-## 🛠 Technologies Used
+## Technologies Used
 
 ### Database
 * **MongoDB**
@@ -18,7 +18,7 @@ The objective of the project is to create a shop management system that features
 
 ---
 
-## 🚀 Running the Application
+## Running the Application
 
 ### Using Docker CLI
 
@@ -55,10 +55,17 @@ docker run -d \
   --health-start-period=10s \
   --health-interval=15s \
   arturtrokhymenko-frontend
+```
 
-# Build and start all containers simultaneously
+## Build and start all containers simultaneously
+
+```bash
 docker-compose up --build
+```
 
+## Project Structure
+
+```bash
 .
 ├── client/                  # Frontend application folder
 │   └── src/
@@ -76,3 +83,4 @@ docker-compose up --build
 │
 ├── docker-compose.yml
 └── README.md
+```
