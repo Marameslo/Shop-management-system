@@ -1,0 +1,49 @@
+services:
+  database:
+    image: mongo:latest
+    container_name: Database
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build: ./server
+    container_name: server
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URI=mongodb://Database:27017/magazyn
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:8080/', (res) => process.exit(0)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build: ./client
+    container_name: client
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/', (res) => process.exit(0)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+      
+volumes:
+  mongo-data:
